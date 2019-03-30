@@ -4,6 +4,7 @@ from PIL import ImageOps
 import cv2
 import pytesseract
 import pyautogui
+from Img import Img
 
 pytesseract.pytesseract.tesseract_cmd = r'E:\Ivar\Apps\Tesseract\tesseract.exe'
 
@@ -19,21 +20,31 @@ def get_char(img):
     return text
 
 
+def type_char(char):
+    pyautogui.keyDown(char)
+    pyautogui.keyUp(char)
+
+
+def type_char_shift(char):
+    pyautogui.keyDown('shift')
+    pyautogui.keyDown(char)
+    pyautogui.keyUp(char)
+    pyautogui.keyUp('shift')
+
+
 while(True):
-    raw = ImageGrab.grab(bbox=(1920 / 3 + 60, 2.05 * 1080 / 3, 2 * 1920 / 3 - 70, 1.58 * 1080 / 2))
-    w, h = raw.size
-    raw = ImageOps.crop(raw, (9, 31, 475, 40))
-    raw = raw.resize((200, 300))
-    screen = np.array(raw)
-    new_screen = process_img(screen)
+    img = Img()
     # new_screen = screen
-    detection = get_char(new_screen)
+    detection = get_char(img.get_screen())
     if detection:
         char = detection[0]
-        pyautogui.keyDown(char)
-        pyautogui.keyUp(char)
+        if char.startswith('shift_'):
+            type_char_shift(char)
+        else:
+            type_char(char)
+
         print(char)
-    cv2.imshow('window', new_screen)
+    img.show()
     # cv2.imshow('window2', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
