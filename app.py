@@ -6,7 +6,7 @@ import pytesseract
 import pyautogui
 from Img import Img
 
-pytesseract.pytesseract.tesseract_cmd = r'E:\Ivar\Apps\Tesseract\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
 
 
 def process_img(original_image):
@@ -35,17 +35,17 @@ def type_char_shift(char):
 while(True):
     img = Img()
     # new_screen = screen
-    detection = get_char(img.get_screen())
+    detection = get_char(img.get_img())
     if detection:
         char = detection[0]
-        if char.startswith('shift_'):
-            type_char_shift(char)
-        else:
-            type_char(char)
+        # if char.startswith('shift_'):
+        #     type_char_shift(char)
+        # else:
+        #     type_char(char)
 
         print(char)
-    img.show()
-    # cv2.imshow('window2', cv2.cvtColor(screen, cv2.COLOR_BGR2RGB))
+    # img.show()
+    # cv2.imshow('screen', img.get_img(img))
     if cv2.waitKey(25) & 0xFF == ord('q'):
         cv2.destroyAllWindows()
         break

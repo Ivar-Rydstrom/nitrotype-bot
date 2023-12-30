@@ -6,15 +6,16 @@ import cv2
 
 class Img:
     def __init__(self):
-        self.screen = self.get_img()
+        self.screen = self.gen_img()
 
 
     def gen_img(self):
-        raw = ImageGrab.grab(bbox=(1920 / 3 + 60, 2.05 * 1080 / 3, 2 * 1920 / 3 - 70, 1.58 * 1080 / 2))
+        raw = ImageGrab.grab(bbox=(301, 820, 300+350, 820+70))
         w, h = raw.size
-        raw = ImageOps.crop(raw, (9, 31, 475, 40))
-        raw = raw.resize((200, 300))
+        # raw = ImageOps.crop(raw, (9, 31, 475, 40))
+        # raw = raw.resize((200, 300))
         screen = np.array(raw)
+        cv2.imshow('screen',screen)
         new_screen = self.process_img(screen)
         return new_screen
 
